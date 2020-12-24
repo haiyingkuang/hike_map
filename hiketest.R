@@ -2,11 +2,11 @@ library(dplyr)
 library(stringr)
 library(leaflet)
 
-hike_easy_1 <- read.csv("easy1csv.csv")
-hike_easy_2 <- read.csv("easy2csv.csv")
-hike_mod_1 <- read.csv("mod1csv.csv")
-hike_mod_2 <- read.csv ("mod2csv.csv")
-hike_hard_1 <- read.csv("hard1csv.csv")
+hike_easy_1 <- read.csv("data/easy1csv.csv")
+hike_easy_2 <- read.csv("data/easy2csv.csv")
+hike_mod_1 <- read.csv("data/mod1csv.csv")
+hike_mod_2 <- read.csv ("data/mod2csv.csv")
+hike_hard_1 <- read.csv("data/hard1csv.csv")
 hike <- rbind(hike_easy_1, hike_easy_2, hike_mod_1, hike_mod_2, hike_hard_1)
 
 hike <- hike %>%
@@ -22,7 +22,8 @@ hike <- hike %>%
                    gregexpr("[[:digit:]]+\\.*[[:digit:]]*", hike$drive_time)))),
                    as.numeric(str_extract(hike$drive_time, "[0-9]+"))
                    ),
-    info = paste0(hike_name, "<br/>", time, "<br/>", difficulty)
+    hr_min = paste0(time %/% 60, " hr ", time %% 60, " min"),
+    info = paste0(hike_name, "<br/>", hr_min, "<br/>", difficulty)
   ) %>%
   filter(!is.na(time)) %>%
   mutate(color = if_else(time <= 30, "#FFE077",
@@ -42,12 +43,12 @@ hike <- hike %>%
 
 
 leaflet(data = hike) %>%
-  addProviderTiles("CartoDB.VoyagerLabelsUnder") %>% #"CartoDB.VoyagerLabelsUnder"
+  addProviderTiles("CartoDB.VoyagerLabelsUnder") %>% 
   addCircleMarkers(
     lat = ~lat,
     lng = ~long,
     stroke = TRUE,
-    radius = 1,
+    radius = 2,
     popup = ~info, 
     color = ~color
   )

@@ -1,6 +1,7 @@
 library(dplyr)
 library(tidyr)
 library(stringr)
+library(leaflet)
 
 server <- function(input, output) {
   output$message <- renderText({
@@ -11,11 +12,11 @@ server <- function(input, output) {
   
   output$map <- renderLeaflet({
     
-    hike_easy_1 <- read.csv("easy1csv.csv")
-    hike_easy_2 <- read.csv("easy2csv.csv")
-    hike_mod_1 <- read.csv("mod1csv.csv")
-    hike_mod_2 <- read.csv ("mod2csv.csv")
-    hike_hard_1 <- read.csv("hard1csv.csv")
+    hike_easy_1 <- read.csv("data/easy1csv.csv")
+    hike_easy_2 <- read.csv("data/easy2csv.csv")
+    hike_mod_1 <- read.csv("data/mod1csv.csv")
+    hike_mod_2 <- read.csv ("data/mod2csv.csv")
+    hike_hard_1 <- read.csv("data/hard1csv.csv")
     hike <- rbind(hike_easy_1, hike_easy_2, hike_mod_1, hike_mod_2, hike_hard_1)
     
     hike <- hike %>%
@@ -31,7 +32,10 @@ server <- function(input, output) {
                                                            gregexpr("[[:digit:]]+\\.*[[:digit:]]*", hike$drive_time)))),
                        as.numeric(str_extract(hike$drive_time, "[0-9]+"))
         ),
-        info = paste0(hike_name, "<br/>", time, "<br/>", difficulty)
+        hr_min = if_else(time %/% 60 == 0, paste0(time %% 60, " min"),
+                 if_else(time %% 60 == 0, paste0(time %/% 60, " hr"),
+                 paste0(time %/% 60, " hr ", time %% 60, " min"))),
+        info = paste0(hike_name, "<br/>", "Drive from Portland: ", hr_min, "<br/>", difficulty, ", ", distance)
       ) %>%
       filter(!is.na(time)) %>%
       mutate(color = if_else(time <= 30, "#FFE077",
@@ -45,20 +49,24 @@ server <- function(input, output) {
                      if_else(time <= 240, "#B199FF",
                      if_else(time <= 300, "#A198FF",
                      if_else(time <= 420," #9D9AFF", "#9C99FF")))))))))))
-      )
+      ) %>%
+      filter(difficulty %in% input$checkGroup)
     
     
     leaflet(data = hike) %>%
-      addProviderTiles("CartoDB.VoyagerLabelsUnder") %>% #"CartoDB.VoyagerLabelsUnder"
+      addProviderTiles("CartoDB.VoyagerLabelsUnder") %>%
       addCircleMarkers(
         lat = ~lat,
         lng = ~long,
         stroke = TRUE,
-        radius = 1,
-        popup = ~info, 
+        radius = 2,
+        popup = ~info,
         color = ~color
       )
   })
+  
+  
+  output$value <- renderPrint({ input$checkGroup })
 }
 
 

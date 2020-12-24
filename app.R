@@ -1,5 +1,4 @@
-library("shiny")
-library("plotly")
+library(shiny)
 
 #load the ui and server
 source("hike_ui.R")
