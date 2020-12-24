@@ -1,8 +1,3 @@
-library(dplyr)
-library(tidyr)
-library(stringr)
-library(leaflet)
-
 server <- function(input, output) {
   output$message <- renderText({
     msg <- paste0("You've chosen option #",
@@ -65,8 +60,6 @@ server <- function(input, output) {
       )
   })
   
-  
-  output$value <- renderPrint({ input$checkGroup })
 }
 
 

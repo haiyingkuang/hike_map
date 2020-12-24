@@ -1,15 +1,3 @@
-ui <- navbarPage(
-  "Hiking things",
-  page_one
-)
-
-page_one <- tabPanel (
-  "Page one",
-  sidebarLayout(
-    page_one_side,
-    page_one_main
-  )
-)
 
 page_one_main <- mainPanel(
   "My hike map", #better title?
@@ -28,3 +16,16 @@ page_one_side <- sidebarPanel(
   )
 )
 
+
+page_one <- tabPanel (
+  "Page one",
+  sidebarLayout(
+    page_one_side,
+    page_one_main
+  )
+)
+
+ui <- navbarPage(
+  "Hiking things",
+  page_one
+)

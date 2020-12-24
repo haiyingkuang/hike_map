@@ -1,0 +1,12 @@
+name: hike_map
+title: hike_map
+username:
+account: haiyingkuang
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 3428697
+bundleId: 4026886
+url: https://haiyingkuang.shinyapps.io/hike_map/
+when: 1608853359.56239
+asMultiple: FALSE
+asStatic: FALSE
