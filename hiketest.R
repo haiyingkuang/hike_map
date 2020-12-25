@@ -22,6 +22,9 @@ hike <- hike %>%
                    gregexpr("[[:digit:]]+\\.*[[:digit:]]*", hike$drive_time)))),
                    as.numeric(str_extract(hike$drive_time, "[0-9]+"))
                    ),
+    dist = as.numeric(unlist(regmatches(hike$distance,
+                                        gregexpr("[[:digit:]]+\\.*[[:digit:]]*",
+                                                 hike$distance)))),
     hr_min = paste0(time %/% 60, " hr ", time %% 60, " min"),
     info = paste0(hike_name, "<br/>", hr_min, "<br/>", difficulty)
   ) %>%
@@ -37,7 +40,7 @@ hike <- hike %>%
                  if_else(time <= 240, "#B199FF",
                  if_else(time <= 300, "#A198FF",
                  if_else(time <= 420," #9D9AFF", "#9C99FF")))))))))))
-  )
+  ) %>% filter(dist > 20)
          
 
 

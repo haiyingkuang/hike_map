@@ -1,3 +1,5 @@
+library(dplyr)
+
 server <- function(input, output) {
   output$message <- renderText({
     msg <- paste0("You've chosen option #",
@@ -5,6 +7,8 @@ server <- function(input, output) {
     return(msg)
   })
   
+  
+  # makes interactive map
   output$map <- renderLeaflet({
     # loads a bunch of csv files
     hike_easy_1 <- read.csv("data/easy1csv.csv")
@@ -15,6 +19,7 @@ server <- function(input, output) {
     
     # combines all the csv files
     hike <- rbind(hike_easy_1, hike_easy_2, hike_mod_1, hike_mod_2, hike_hard_1)
+    
     
     # creates new columns that are more usable
     hike <- hike %>%
@@ -49,9 +54,11 @@ server <- function(input, output) {
                      if_else(time <= 300, "#A198FF",
                      if_else(time <= 420," #9D9AFF", "#9C99FF")))))))))))
       ) %>%
+      filter(hike$dist >= input$dist_slider[1] &
+             hike$dist <= input$dist_slider[2] &
+             difficulty %in% input$checkGroup
+             )
       
-      # makes the chart interactive (checkGroup is var for selected check boxes)
-      filter(difficulty %in% input$checkGroup)
     
     # makes and returns map
     leaflet(data = hike) %>%
