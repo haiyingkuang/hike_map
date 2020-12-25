@@ -54,10 +54,12 @@ server <- function(input, output) {
                      if_else(time <= 300, "#A198FF",
                      if_else(time <= 420," #9D9AFF", "#9C99FF")))))))))))
       ) %>%
-      filter(hike$dist >= input$dist_slider[1] &
-             hike$dist <= input$dist_slider[2] &
+      filter(#hike$dist >= input$dist_slider[1] &
+             #hike$dist <= input$dist_slider[2] &
              difficulty %in% input$checkGroup
              )
+    
+    hike <- hike[(hike$dist <= input$dist_slider[2] & hike$dist >= input$dist_slider[1]), ]
       
     
     # makes and returns map

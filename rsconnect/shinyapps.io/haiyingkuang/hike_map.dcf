@@ -5,8 +5,8 @@ account: haiyingkuang
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 3428697
-bundleId: 4026886
+bundleId: 4026975
 url: https://haiyingkuang.shinyapps.io/hike_map/
-when: 1608853359.56239
+when: 1608857319.78821
 asMultiple: FALSE
 asStatic: FALSE
