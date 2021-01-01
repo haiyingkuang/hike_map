@@ -26,7 +26,7 @@ hike <- hike %>%
                                         gregexpr("[[:digit:]]+\\.*[[:digit:]]*",
                                                  hike$distance)))),
     hr_min = paste0(time %/% 60, " hr ", time %% 60, " min"),
-    info = paste0(hike_name, "<br/>", hr_min, "<br/>", difficulty)
+    info = paste0(ï..hike_name, "<br/>", hr_min, "<br/>", difficulty)
   ) %>%
   filter(!is.na(time)) %>%
   mutate(color = if_else(time <= 30, "#FFE077",

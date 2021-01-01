@@ -35,7 +35,7 @@ server <- function(input, output) {
         hr_min = if_else(time %/% 60 == 0, paste0(time %% 60, " min"),
                  if_else(time %% 60 == 0, paste0(time %/% 60, " hr"),
                  paste0(time %/% 60, " hr ", time %% 60, " min"))),
-        info = paste0(hike_name, "<br/>",
+        info = paste0(ï..hike_name, "<br/>",
                       "Drive from Portland: ", hr_min,"<br/>",
                       difficulty, ", ", distance)
       ) %>%
